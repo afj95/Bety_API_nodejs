@@ -6,12 +6,7 @@ const Stuff = require("../models/stuff");
 
 // Home page - index
 router.get("/", (req, res) => {
-    res.redirect("index")
-})
-
-// index page
-router.get("/index", (req, res) => {
-    res.render("index")
+    res.redirect("/be/homes")
 })
 
 //===============================================

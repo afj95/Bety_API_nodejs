@@ -31,4 +31,16 @@ router.post("/", (req, res) => {
     })
 })
 
+router.put("/:homeId", (req, res) => {
+    const name = req.body.name;
+
+    Home.findByIdAndUpdate(req.params.homeId, req.body.home, (err, foundedHome) => {
+        if(err) console.log(err)
+        else {
+            // res.send(200, foundedHome)
+            console.log(foundedHome)
+        }
+    })
+})
+
 module.exports = router;
