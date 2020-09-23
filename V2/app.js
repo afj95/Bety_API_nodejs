@@ -12,7 +12,7 @@ const
     localSrategy       = require("passport-local"),
     methodOverride     = require("method-override"),
     // ROUTES
-    // Back-End
+    // BE = Back-End
     BE          = require("./back-end_Routes"),
     authRoutes  = require("./routes/auth"),
     homeRoutes  = require("./routes/home"),
@@ -86,8 +86,18 @@ app.use("/au", authRoutes);
 app.use("/homes", homeRoutes);
 app.use("/stuffs", stuffRoutes);
 
+//console.log(process.env.PORT)
+
+// delete process.env.PORT;
 
 //================================================
-app.listen(process.env.PORT || 3300, process.env.IP, () => {
-    console.log("SERVER IS LISTENING...")
+
+const {
+    PORT = 3000
+} = process.env
+
+console.log(PORT)
+
+app.listen(PORT , process.env.IP, () => {
+    console.log("SERVER IS LISTENING... on " + `http://localhost:${PORT}`)
 })

@@ -5,9 +5,9 @@ const
 const homeSchema = mongoose.Schema(
     {
         name: String,
-        // adminEmail: [
-        //     {type: mongoose.Schema.Types.ObjectId, ref: "Users"}
-        // ],
+        adminEmail: [
+            {type: String, ref: "Users"}
+        ],
         stuffs: [
             {type: mongoose.Schema.Types.ObjectId, ref: "Stuffs"}
         ],
