@@ -18,7 +18,7 @@ const
     homeRoutes  = require("./routes/home"),
     stuffRoutes = require("./routes/stuff");
 
-// mongodb://localhost:27017
+// mongodb://localhost:27017/bety
 mongoose.connect(process.env.DATABASEURL,
 {
     useNewUrlParser: true,
@@ -33,6 +33,7 @@ app.use(flash())
 
 // PASSPORT Configuration
 passport.use(new localSrategy(User.authenticate()));
+{
 // passport.use('local-signup', new localSrategy({
 //     usernameField: 'email',
 //     passwordField: 'password',
@@ -50,6 +51,7 @@ passport.use(new localSrategy(User.authenticate()));
 //         return done(null, user);
 //     })
 // }));
+}
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
@@ -58,6 +60,7 @@ app.use(require("express-session")({
     resave: false,
     saveUninitialized: false,
 }));
+
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json());
 app.use(express.static(__dirname + "/public"))
@@ -96,8 +99,6 @@ const {
     PORT = 3000
 } = process.env
 
-console.log(PORT)
+// console.log(process.env.GMAILPW)
 
-app.listen(PORT , process.env.IP, () => {
-    console.log("SERVER IS LISTENING... on " + `http://localhost:${PORT}`)
-})
+app.listen(PORT , process.env.IP, () => console.log('SERVER IS LISTENING... on ' + `http://localhost:${PORT}`))

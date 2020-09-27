@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <legend>Reset Password</legend>
+            <div style="width: 30%; margin: 50px auto;">
+                <form action="/au/reset/<%= token %>" method="POST">
+                    <div class="form-group">
+                        <label for="password">New Password</label>
+                        <input type="password" name="password" value="" placeholder="New password" autofocus="autofocus" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm">Confirm Password</label>
+                        <input type="password" name="confirm" value="" placeholder="Confirm password" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn-primary btn-lg btn-default btn-block">Update Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
