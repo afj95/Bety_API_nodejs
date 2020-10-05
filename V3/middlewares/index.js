@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+const User = require('../models/user')
 const middlewareObj = {};
 
 middlewareObj.isLoggedIn = (req, res, next) => {
@@ -9,6 +11,18 @@ middlewareObj.isLoggedIn = (req, res, next) => {
     // res.redirect("/au/login")
 }
 
+middlewareObj.authenticateToken = (req, res, next) => {
+    const token = req.headers.authorization
+    if(token == null) return res.sendStatus(401)
 
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        if(err) return res.sendStatus(403)
+        User.findOne({username: user.username}, (err, user) => {
+            if(err) console.log('err')
+            req.user = user
+            next()
+        })
+    })
+}
 
 module.exports = middlewareObj;

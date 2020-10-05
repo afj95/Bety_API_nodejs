@@ -1,39 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <title>Forgot Password</title>
-</head>
-<body>
-    <div class="container" style="padding-top: 50px;">
-        <% if(error && error.length > 0){ %>
-            <div class="alert alert-danger" role="alert">
-                <%= error %>
-            </div>
-        <% } %>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <title>Forgot Password</title>
+    </head>
+    <body>
+        <div class="container" style="padding-top: 50px;">
+            <% if(error && error.length > 0){ %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                </div>
+            <% } %>
 
-        <% if(success && success.length > 0){ %>
-            <div class="alert alert-success" role="alert">
-                <%= success %>
-            </div>
-        <% } %>
+            <% if(success && success.length > 0){ %>
+                <div class="alert alert-success" role="alert">
+                    <%= success %>
+                </div>
+            <% } %>
 
-        <div class="row">
-            <h1 style="text-align: center;">Forgot Password</h1>
-            <div style="width: 30%; margin: 50px auto;">
-                <form action="/au/forgot" method="POST">
-                    <div class="form-group">
-                        <input class="form-control" type="email" required placeholder="Email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn-primary btn-lg btn-default btn-block">Submit!</button>
-                    </div>
-                </form>
+            <div class="row">
+                <h1 style="text-align: center;">Forgot Password</h1>
+                <div style="width: 30%; margin: 50px auto;">
+                    
+                    <form action="/au/forgot" method="POST">
+                        <div class="form-group">
+                            <input class="form-control" type="email" required placeholder="Email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn-primary btn-lg btn-default btn-block">Submit!</button>
+                        </div>
+                    </form>
 
+                </div>
             </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>

@@ -1,21 +1,18 @@
-const { stat } = require('fs');
-
 const
     express    = require('express'),
     router     = express.Router(),
     passport   = require('passport'),
     User       = require('../models/user'),
-    middleware = require('../middlewares'), // automatically will require index.js
+    middleware = require('../middlewares'),
     crypto     = require('crypto'),
     async      = require('async'),
     nodemailer = require("nodemailer"),
+    jwt        = require('jsonwebtoken'),
     Isemail    = require('isemail');
 
 var status = {message: ''}
 
-router.get('/', (req, res) => {
-    res.render('index')
-})
+router.get('/', (req, res) => res.redirect('/au/login'))
 
 router.get('/register', (req, res) => res.render('register'))
 
@@ -38,24 +35,24 @@ router.post('/register', (req, res) => {
             if(err) {
                 status.message = 'Some errors happened'
                 console.log(err)
-                res.send(status + err)
+                res.status(500).send(status + err)
             }
             if(user) {
                 status.message = 'A user with the given email is already registered'
                 console.log(status)
-                res.send(status)
+                res.status(403).send(status)
             } else {
-                console.log('not found')
+                // console.log('not found')
                 User.register(newUser, req.body.password, (err, user) => {
                     if(err) {
                         status.message = err.message;
                         console.log(status)
-                        res.send(status)
+                        res.status(500).send(status)
                     } else {
-                        console.log(newUser)
+                        // console.log(newUser)
                         passport.authenticate('local')(req, res, () => {
                             status.message = 'success'
-                            res.send(status)
+                            res.status(201).send(status)
                         });
                     }
                 })
@@ -64,44 +61,45 @@ router.post('/register', (req, res) => {
     } else {
         status.message = 'Invalid email, Please enter a valid email!';
         console.log(status)
-        res.send(status)
+        res.status(400).send(status)
     }
 })
 
 router.get('/login', (req, res) => res.render('login'))
 
-// router.post('/login', passport.authenticate('local', {
-//     successRedirect: '/',
-//     failureRedirect: '/au/login',
-// }))
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', async (err, user, info) => {
+        if (err) { return next(err);}
+        if (!user) { status.message = 'Wrong username or password!'; return res.status(404).send(status)}
 
-router.post('/login', (req, res) => {
-    passport.authenticate('local', (err, user, info) => {
-        if(err) console.log(err)
-        if(!user) {
-            console.log('message: ' + info.message)
-            res.json({message: info.message})
-            return
-        }
-        // res.json({message: 'success', user: user})
-        res.render('index')
-    })(req, res)
+        var accessToken = await generaAccessToken(user);
+        // console.log('user:', req.user)
+        req.logIn(user, err => {
+            if (err) {
+                console.log('err:', err);
+                return next(err);
+            }
+            console.log('logged in')
+            // console.log('user:', req.user)
+            res.status(200).json({ message: 'success', user: user, token: accessToken });
+        });
+    })(req, res, next);
 })
 
-// router.post('/login', passport.authenticate('local'), (req, res) => {
-//         status.message = 'success'
-//         var response = {message: status.message, user: req.user}
-//         // console.log(response)
-//         res.send(response)
-// })
+generaAccessToken = user => {
+    var jsonObj = { username: user.username };
+
+    return jwt.sign(jsonObj, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30d' });
+}
+
+router.get('/getCurrentUser', middleware.authenticateToken, (req, res, next) => {req.user ? res.status(200).json({ user: req.user }) : res.status(404).send()})
 
 router.get('/logout', (req, res) => {
+    // console.log('user:', req.user)
     req.logOut()
+    // console.log('user:', req.user)
     status.message = 'success'
     res.send(status)
-
-    // req.flash('success', 'Logged you out!')
-    // req.redirect('/index')
 })
 
 router.get('/forgot', (req, res) => {
@@ -234,9 +232,19 @@ router.post('/reset/:token', function(req, res) {
     });
 });
 
-router.get('/testingMiddleware', middleware.isLoggedIn, (req, res) => {
-    res.send('Authenticated')
+
+
+router.get('/testing', middleware.isLoggedIn, (req, res) => {
+
+    res.json({message: 'done'})
+    // if(!req.session.user) {
+    //     console.log('session:', req.session.user)
+    //     res.status(404).send('Not Authenticated')
+    // } else {
+    //     // console.log('session:', req.session)
+    //     console.log(req.session)
+    //     res.status(201).send('Authenticated')
+    // }
 })
 
 module.exports = router;
-

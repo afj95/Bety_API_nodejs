@@ -1,29 +1,38 @@
 const express = require('express');
 const router  = express.Router();
 const Home    = require('../models/home');
+const User    = require('../models/user');
 const middleware = require('../middlewares');
 
 // GET homes through email
-router.get('/:email',  (req, res) => {
-    Home.find({adminEmail: req.params.email}, (err, foundedHomes) => {
-        if(err) {
-            console.log(err)
-        } else {
-            var homes = []
-            foundedHomes.forEach((home) => {
-                var h =
-                {
-                    _id: home._id,
-                    name: home.name,
-                    members: home.members.length,
-                    stuffs: home.stuffs.length,
-                    created: home.created
-                }
-                homes.push(h)
-            })
-            res.json(homes)
-        }
+// ToDo: Get homes through members
+router.get('/:email', (req, res) => {
+
+    var userEmail = req.params.email;
+
+    User.findOne(userEmail, (err, user) => {
+        console.log(user);
     })
+
+    // Home.find({adminEmail: req.params.email}, (err, foundedHomes) => {
+    //     if(err) {
+    //         console.log(err)
+    //     } else {
+    //         var homes = []
+    //         foundedHomes.forEach((home) => {
+    //             var h =
+    //             {
+    //                 _id: home._id,
+    //                 name: home.name,
+    //                 members: home.members.length,
+    //                 stuffs: home.stuffs.length,
+    //                 created: home.created
+    //             }
+    //             homes.push(h)
+    //         })
+    //         res.json(homes)
+    //     }
+    // })
 });
 
 // CREATE new home

@@ -1,11 +1,6 @@
 All App:
-    1- flash messages
-    2- front-end style
-
-
-
-Sign Up ROUTES:
-    1- 
+    1- flash messages                                             DONE
+    2- front-end style                                            DONE
 
 Homes ROUTES:                        => "/homes..."
     1- Get homes via email           => "/:email"                 DONE

@@ -12,7 +12,7 @@ const homeSchema = mongoose.Schema(
             {type: mongoose.Schema.Types.ObjectId, ref: "Stuffs"}
         ],
         members: [
-            {type: mongoose.Schema.Types.ObjectId, ref: "Users"}
+            {type: String, ref: "Users"}
         ],
         created: {type: Date, default: Date.now}
     }

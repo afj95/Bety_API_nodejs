@@ -3,22 +3,23 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-
   "scripts": {
     "start": "node app.js",
     "n": "nodemon app.js"
   },
-
   "author": "Ahmad",
   "license": "ISC",
   "dependencies": {
     "async": "^3.2.0",
     "body-parser": "^1.19.0",
     "connect-flash": "^0.1.1",
+    "connect-session": "0.0.1",
+    "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "isemail": "^3.2.0",
+    "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
     "mongoose": "^5.10.0",
     "nodemailer": "^6.4.11",
