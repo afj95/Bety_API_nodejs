@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/stylesheets/index.css">
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <title>Forgot Password</title>
+    </head>
+    <body>
+        <div class="container" style="padding-top: 50px;">
+            <% if(error && error.length > 0){ %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                </div>
+            <% } %>
+
+            <% if(success && success.length > 0){ %>
+                <div class="alert alert-success" role="alert">
+                    <%= success %>
+                </div>
+            <% } %>
+
+            <div class="row">
+                <h1 style="text-align: center;">Forgot Password</h1>
+                <div style="width: 30%; margin: 50px auto;">
+                    
+                    <form action="/au/forgot" method="POST">
+                        <div class="form-group">
+                            <input class="form-control" type="email" required placeholder="Email" name="email" required>
+                        </div>
+                        <!-- <button class="send">
+                            <div class="text">SEND</div>
+                            <div class="loader"></div>
+                            <div class="done">SUCCESS</div>
+                        </button> -->
+                        <div class="form-group">
+                            <button class="btn-primary btn-lg btn-default btn-block">Submit!</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <!-- <script>
+        $(".send").on('click', function() {
+            $(".text").addClass("active");
+            $(".send").addClass("active");
+            $(".loader").addClass("active");
+            $(".send").delay(1700).queue(function() {
+                $(this).addClass("finished").clearQueue();
+        });
+
+        $(".done").delay(1600).queue(function() {
+            $(this).addClass("active").clearQueue();
+        });
+    })
+    </script> -->
+
+</html>

@@ -1,0 +1,160 @@
+/* body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    display: -webkit-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Montserrat";
+    font-weight: 700;
+    padding-top: 50vh;
+}
+
+button {
+    outline: 0;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+button.active {
+    outline: 0;
+}
+
+button.send {
+    border: 2px solid #fff;
+    color: white;
+    border-radius: 50px;
+    padding: 15px 80px;
+    background: #12e2a3;
+    position: relative;
+    overflow: hidden;
+    transform: translateY(-50%);
+    font-weight: bold;
+}
+
+button.send .text {
+    font-size: 16px;
+    margin-top: 0;
+}
+
+button.send .text.active {
+    transform: translateY(-350%) scale(0);
+    transition: 0.35s cubic-bezier(0.34, -0.61, 1, 0.64);
+}
+
+button.send.active {
+    padding: 0px 80px;
+    transition: 0.4s cubic-bezier(0.35, -0.77, 0.67, 1.88);
+}
+
+button.send .loader {
+    position: absolute;
+    width: calc(0% - 4px);
+    height: calc(100% - 4px);
+    background-color: #fff;
+    left: 2px;
+    top: 2px;
+    border-radius: 50px;
+}
+
+button.send .done {
+    color: #389168;
+    margin-top: -15px;
+    transform: translateY(300%) scale(0);
+}
+
+button.send .done.active {
+    transform: translateY(0%) scale(1);
+    transition: 0.4s cubic-bezier(0.34, -0.61, 1, 0.64);
+    font-weight: bold;
+    color: #12e2a3;
+}
+
+button.send.finished {
+    padding: 15px 80px;
+    transition: 0.4s cubic-bezier(0.35, -0.77, 0.67, 1.88);
+} */
+
+#landing-header {
+z-index: 1;
+position: relative;
+text-align: center;
+padding-top: 40vh;
+}
+
+#landing-header h1 {
+    color: #fff;
+}
+
+.slideshow { 
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.slideshow li { 
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    opacity: 0;
+    z-index: 0;
+    animation: imageAnimation 50s linear infinite; 
+}
+
+.slideshow li:nth-child(1) { 
+    background-image: url(https://wallpaperaccess.com/full/1624843.jpg) 
+}
+.slideshow li:nth-child(2) { 
+    background-image: url(https://c4.wallpaperflare.com/wallpaper/8/279/806/cave-johnson-supermarket-women-model-portal-2-video-games-wallpaper-preview.jpg);
+    animation-delay: 10s; 
+}
+.slideshow li:nth-child(3) { 
+    background-image: url(https://c0.wallpaperflare.com/preview/462/1010/452/supermarket-shelf-blur-yogurt.jpg);
+    animation-delay: 20s; 
+}
+.slideshow li:nth-child(4) { 
+    background-image: url(https://wallpapercave.com/wp/wp3152222.jpg);
+    animation-delay: 30s; 
+}
+.slideshow li:nth-child(5) { 
+    background-image: url(https://images.unsplash.com/photo-1534723452862-4c874018d66d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80);
+    animation-delay: 40s; 
+}
+
+@keyframes imageAnimation { 
+    0% { 
+      opacity: 0; 
+      animation-timing-function: ease-in;
+    }
+    10% {
+      opacity: 1;
+      animation-timing-function: ease-out;
+    }
+    20% {
+      opacity: 1
+    }
+    30% {
+      opacity: 0
+    }
+}
+
+/* Older browser support - .no-cssanimations class added by modernizr */
+.no-cssanimations .slideshow li {
+	opacity: 1;
+}
