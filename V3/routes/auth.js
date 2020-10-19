@@ -14,74 +14,55 @@ var status = {message: ''}
 
 router.get('/', (req, res) => res.redirect('/au/login'))
 
-router.get('/register', (req, res) => res.render('register'))
+// router.get('/register', (req, res) => res.render('register'))
 
 router.post('/register', (req, res) => {
 
     var emailPattern = Isemail.validate(req.body.email)
 
     if(emailPattern) {
-        // Add new user to db
-        var newUser = new User(
-            {
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                username: req.body.username,
-                email: req.body.email,
-                phoneNumebr: req.body.phoneNumebr
-            });
 
         User.findOne({email: req.body.email}, (err, user) => {
-            if(err) {
-                status.message = 'Some errors happened'
-                console.log(err)
-                res.status(500).send(status + err)
-            }
+            if(err) res.status(500).send()
             if(user) {
-                status.message = 'A user with the given email is already registered'
-                console.log(status)
-                res.status(403).send(status)
+                // Exist email
+                res.status(409).send()
             } else {
-                // console.log('not found')
+                // Add new user to db
+                var newUser = new User(
+                {
+                    firstName: req.body.firstName,
+                    lastName: req.body.lastName,
+                    username: req.body.username,
+                    email: req.body.email,
+                    phoneNumebr: req.body.phoneNumebr
+                });
+
                 User.register(newUser, req.body.password, (err, user) => {
-                    if(err) {
-                        status.message = err.message;
-                        console.log(status)
-                        res.status(500).send(status)
-                    } else {
-                        // console.log(newUser)
+                    if(err) res.status(500).send()
+                    else {
                         passport.authenticate('local')(req, res, () => {
-                            status.message = 'success'
-                            res.status(201).send(status)
+                            res.status(201).send()
                         });
                     }
                 })
             }
         })
-    } else {
-        status.message = 'Invalid email, Please enter a valid email!';
-        console.log(status)
-        res.status(400).send(status)
-    }
+    } else res.status(400).send()
 })
 
-router.get('/login', (req, res) => res.render('login'))
+// router.get('/login', (req, res) => res.render('login'))
 
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', async (err, user, info) => {
-        if (err) { return next(err);}
-        if (!user) { status.message = 'Wrong username or password!'; return res.status(404).send(status)}
+        if (err) { return res.status(500).send() }
+        if (!user) { return res.status(404).send() }
 
         var accessToken = await generaAccessToken(user);
-        // console.log('user:', req.user)
         req.logIn(user, err => {
-            if (err) {
-                console.log('err:', err);
-                return next(err);
-            }
-            console.log('logged in')
-            // console.log('user:', req.user)
-            res.status(200).json({ message: 'success', user: user, token: accessToken });
+            if (err) return res.status(500).send();
+            console.log('logged in ' + user.email)
+            return res.status(200).send();
         });
     })(req, res, next);
 })
@@ -92,19 +73,14 @@ generaAccessToken = user => {
     return jwt.sign(jsonObj, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30d' });
 }
 
-router.get('/getCurrentUser', middleware.authenticateToken, (req, res, next) => {req.user ? res.status(200).json({ user: req.user }) : res.status(404).send()})
+router.get('/getCurrentUser', middleware.authenticateToken, (req, res) => {req.user ? res.status(200).json({ user: req.user }) : res.status(404).send()})
 
 router.get('/logout', (req, res) => {
-    // console.log('user:', req.user)
     req.logOut()
-    // console.log('user:', req.user)
-    status.message = 'success'
-    res.send(status)
+    res.status(200).send()
 })
 
-router.get('/forgot', (req, res) => {
-    res.render('forgot')
-})
+router.get('/forgot', (req, res) => res.render('forgot') )
 
 router.post('/forgot', (req, res, next) => {
     async.waterfall([
@@ -234,17 +210,9 @@ router.post('/reset/:token', function(req, res) {
 
 
 
-router.get('/testing', middleware.isLoggedIn, (req, res) => {
+router.get('/testing', middleware.authenticateToken, (req, res) => {
 
     res.json({message: 'done'})
-    // if(!req.session.user) {
-    //     console.log('session:', req.session.user)
-    //     res.status(404).send('Not Authenticated')
-    // } else {
-    //     // console.log('session:', req.session)
-    //     console.log(req.session)
-    //     res.status(201).send('Authenticated')
-    // }
 })
 
 module.exports = router;

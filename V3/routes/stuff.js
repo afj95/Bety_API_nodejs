@@ -2,7 +2,7 @@ const express       = require("express");
 const router        = express.Router();
 const Stuff         = require("../models/stuff");
 const Home          = require("../models/home");
-const DeletedStuff = require("../models/deletedStuff");
+const DeletedStuff  = require("../models/deletedStuff");
 
 
 // GET stuffs through homeId
@@ -21,10 +21,7 @@ router.get("/:homeId", (req, res) => {
 // Adding new stuff
 router.post("/:homeId", (req, res) => {
 
-    // console.log(req.params.homeId);
-
-    var addedStuff = new Stuff(
-        {
+    var addedStuff = new Stuff({
             name: req.body.name,
             notes: req.body.notes,
             homeId: req.params.homeId

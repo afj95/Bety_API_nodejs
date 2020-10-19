@@ -1,20 +1,19 @@
-const
-    mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
 
 const homeSchema = mongoose.Schema(
     {
         name: String,
-        adminEmail: [
-            {type: String, ref: "Users"}
+        admins: [
+            {type: mongoose.Schema.Types.ObjectId, ref: "Users"}
         ],
         stuffs: [
             {type: mongoose.Schema.Types.ObjectId, ref: "Stuffs"}
         ],
         members: [
-            {type: String, ref: "Users"}
+            {type: mongoose.Schema.Types.ObjectId, ref: "Users"}
         ],
-        created: {type: Date, default: Date.now}
+        created: {type: Date, default: new Date()}
     }
 );
 
