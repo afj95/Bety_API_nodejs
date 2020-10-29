@@ -4,7 +4,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="/stylesheets/index.css">
-        
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <title>Forgot Password</title>
     </head>
@@ -27,37 +26,18 @@
                 <div style="width: 30%; margin: 50px auto;">
                     
                     <form action="/au/forgot" method="POST">
+                        
                         <div class="form-group">
-                            <input class="form-control" type="email" required placeholder="Email" name="email" required>
+                            <input class="form-control" type="email" placeholder="Email" name="email" required>
                         </div>
-                        <!-- <button class="send">
-                            <div class="text">SEND</div>
-                            <div class="loader"></div>
-                            <div class="done">SUCCESS</div>
-                        </button> -->
+
                         <div class="form-group">
                             <button class="btn-primary btn-lg btn-default btn-block">Submit!</button>
                         </div>
+                        
                     </form>
-
                 </div>
             </div>
         </div>
     </body>
-
-    <!-- <script>
-        $(".send").on('click', function() {
-            $(".text").addClass("active");
-            $(".send").addClass("active");
-            $(".loader").addClass("active");
-            $(".send").delay(1700).queue(function() {
-                $(this).addClass("finished").clearQueue();
-        });
-
-        $(".done").delay(1600).queue(function() {
-            $(this).addClass("active").clearQueue();
-        });
-    })
-    </script> -->
-
 </html>

@@ -14,7 +14,8 @@ const
     localSrategy       = require('passport-local'),
     methodOverride     = require('method-override'),
     session            = require('express-session'),
-    connect            = require('connect-session')
+    connect            = require('connect-session'),
+    $                  = require('jquery'),
     // ROUTES
     // BE = Back-End
     BE          = require('./back-end_Routes'),
@@ -34,7 +35,6 @@ mongoose.connect(process.env.DATABASEURL,
 .catch(error => console.log(error.message));
 
 app.set('view engine', 'ejs') // For .ejs files
-app.use(flash())
 
 // PASSPORT Configuration
 passport.use(new localSrategy(User.authenticate()));
@@ -64,6 +64,7 @@ app.use(require('express-session')({
     secret: 'This text used to serialize ',
     resave: false,
     saveUninitialized: false,
+    name: 'sessionId'
 }));
 
 app.use(bodyParser.urlencoded({extended: true}))
@@ -73,11 +74,20 @@ app.use(express.static(__dirname + '/public'))
 app.use(methodOverride('_method'))
 app.use(passport.initialize());
 app.use(passport.session());
+/**
+ * If you don’t want to use Helmet, then at least disable the X-Powered-By header.
+ * Attackers can use this header (which is enabled by default) to detect apps running
+ * Express and then launch specifically-targeted attacks.
+ * 
+ * note: If you use helmet.js, it takes care of this for you.
+ */
+app.disable('x-powered-by')
 app.use(session({
     secret: 'secret key',
     resave: false,
     saveUninitialized: true
 }));
+app.use(flash())
 // A way to path a data to all routes
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
@@ -92,7 +102,7 @@ app.get('/', (req, res) => {
 
 // ROUTES
 // Back-End route
-app.use('/be', BE)
+app.use('/admin', BE)
 // ROUTES
 app.use('/au', authRoutes);
 app.use('/homes', homeRoutes);

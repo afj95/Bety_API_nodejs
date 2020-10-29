@@ -1,0 +1,43 @@
+<%- include("../partials/header") %>
+
+<div class="container">
+  <title>Dashboard</title>
+
+  <h1>Dashboard</h1>
+
+  <h1><a href="#Users">Users</a></h1>
+  <br>
+  <ol>
+    <% if(data) { %>
+      <% data.users.forEach(user => { %>
+        <a href="<%=user._id%>/info">
+          <div class="alert alert-secondary" role="alert">
+            <li> <%= user.username %> </li>
+          </div>
+        </a>
+      <% }) %>
+    <% } else { %>
+      <h1>Empty</h1>
+      <% } %>
+  </ol>
+
+  <br>
+
+  <h1><a href="#Homes">Homes</a></h1>
+  <br>
+  <ol>
+    <% if(data) { %>
+      <% data.homes.forEach(home => { %>
+        <div class="alert alert-info" role="alert">
+          <li> <%= home.name %> </li>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <h1>Empty</h1>
+      <% } %>
+  </ol>
+  <br>
+
+</div>
+
+<%- include("../partials/footer") %>

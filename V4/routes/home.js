@@ -4,6 +4,11 @@ const Home       = require('../models/home');
 const User       = require('../models/user');
 const middleware = require('../middlewares');
 
+/** 
+ * All routes starts with: homes
+ * http://localhost:3000/homes/... 
+*/
+
 // GET homes through email
 // ToDo: Get homes from homes list for each user                    DONE
 
@@ -125,41 +130,10 @@ router.delete('/del/:homeId', middleware.authenticateToken, (req, res) => {
     })
 })
 
-// FINISHED ^
-
-// router.get('/tt/tt', (req, res) => {
-//     list = [];
-//     User.findById('5f803f3b63a7eb0b64563663', (err, user) => {
-        
-//         console.log(user.homes);
-//         user.homes = []
-//         console.log(user.homes);
-//         user.save();
-//     })
-
-//     return res.send();
-// })
-
-// NOT FINISHED
-
-// Add new admin
-router.put('/admins/:homeId', middleware.isLoggedIn, (req, res) => {
-    Home.findById(req.params.homeId, (err, home) => {
-        if(err) console.log(err)
-        else {
-            // console.log(home.adminEmail)
-            // res.send('done')
-            console.log('before:', home)
-            home.adminEmail.push(req.body.email)
-            home.save();
-            console.log('after:', home)
-            res.send('done')
-        }
-    })
-})
-
-router.get('/testing', (req, res) => {
+router.get('/testing/t', (req, res) => {
     
+    console.log(req.connection.remoteAddress)
+    return res.json('done');
 })
 
 module.exports = router;

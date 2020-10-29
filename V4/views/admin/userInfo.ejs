@@ -1,0 +1,24 @@
+<%- include("../partials/header") %>
+
+<div class="container">
+    <div class="col-md-9">
+        <div class="thumbnail">
+            <a href="#userInfo"><h1>user Info</h1></a>
+            <h3>First Name: <%= data.user.firstName %></h3>
+            <h3>Last Name: <%= data.user.lastName %></h3>
+            <h3>Username: <%= data.user.username %></h3>
+            <h3>Email: <%= data.user.email %></h3>
+            <hr>
+            <a href="#Homes"><h4>Homes</h4></a>
+            <% data.userHomes.forEach(home =>{ %>
+                <ol>
+                    <li>
+                        <h5><%= home.name %></h5>
+                    </li>
+                </ol>
+            <% }) %>
+        </div>
+    </div>
+</div>
+
+<%- include("../partials/footer") %>

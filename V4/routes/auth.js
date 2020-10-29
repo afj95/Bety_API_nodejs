@@ -10,8 +10,8 @@ const
     jwt        = require('jsonwebtoken'),
     Isemail    = require('isemail');
 
-var status = {message: ''}
-
+// default router
+// localhosr:PORT/
 router.get('/', (req, res) => res.redirect('/au/login'))
 
 // router.get('/register', (req, res) => res.render('register'))
@@ -67,20 +67,77 @@ router.post('/login', (req, res, next) => {
     })(req, res, next);
 })
 
+// create access token to the user logged in
 generaAccessToken = user => {
     var jsonObj = { username: user.username };
 
     return jwt.sign(jsonObj, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30d' });
 }
 
-router.get('/getCurrentUser', middleware.authenticateToken, (req, res) => {req.user ? res.status(200).json({ user: req.user }) : res.status(404).send()})
+// get current user via token
+router.get('/getCurrentUser', middleware.authenticateToken, (req, res) => {
+    if(req.user) {
+        var theDayJoined = '';
+        switch(Number(req.user.joined.getDay())) {
+            case 0:
+                theDayJoined += 'Sun'
+                break;
+            case 1:
+                theDayJoined += 'Mon'
+                break;
+            case 2:
+                theDayJoined += 'Tues'
+                break;
+            case 3:
+                theDayJoined += 'Wed'
+                break;
+            case 4:
+                theDayJoined += 'Thu'
+                break;
+            case 5:
+                theDayJoined += 'Fri'
+                break;
+            case 6:
+                theDayJoined += 'Sat'
+                break;
+        }
+        // getting the user date
+        var joined = new Date(req.user.joined)
+        
+        // changing user date format
+        req.user.joined = theDayJoined + '/' + (Number(req.user.joined.getMonth())+1) + '/' + req.user.joined.getFullYear()
 
-router.get('/logout', middleware.authenticateToken, (req, res) => {
+        var u = {
+            _id:      req.user._id,
+            firstName: req.user.firstName,
+            lastName: req.user.lastName,
+            username: req.user.username,
+            email:    req.user.email,
+            homes:    req.user.homes,
+            stuffs:   req.user.stuffs,
+            joined: theDayJoined + '/' + (Number(req.user.joined.getMonth())+1) + '/' + req.user.joined.getFullYear()
+        }
+
+        res.status(200).json({ user: u })
+    } else {
+        res.status(404).send()
+    }
+})
+
+router.put('/update', (req, res) => {
+    // updating profile data
+
+    // console.log(req.body)
+    // return res.sendStatus(200);
+
+})
+
+router.post('/logout', middleware.authenticateToken, (req, res) => {
     console.log('logout')
-    console.log(req.user)
+    // console.log(req.user)
     req.user = undefined;
     req.logOut();
-    res.status(200).send();
+    return res.status(200).send();
 })
 
 router.get('/forgot', (req, res) => res.render('forgot') )
@@ -213,7 +270,7 @@ router.post('/reset/:token', function(req, res) {
 });
 
 
-
+//=====================================================================
 router.get('/testing', middleware.authenticateToken, (req, res) => {
 
     res.json({message: 'done'})

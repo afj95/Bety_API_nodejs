@@ -80,6 +80,10 @@ button.send.finished {
     transition: 0.4s cubic-bezier(0.35, -0.77, 0.67, 1.88);
 } */
 
+h1 {
+    color: aquamarine;
+}
+
 #landing-header {
 z-index: 1;
 position: relative;
